@@ -16,7 +16,7 @@ export class Circle extends Shape {
      * @param drawSetting {Object} {x, y, radius, radian, fillColor}
      * @param actionSetting {Object} {speed_x, speed_y}
      */
-    constructor(type, drawSetting, actionSetting) {
+    constructor(type, drawSetting, actionSetting={ speed_x: 0, speed_y: 0 }) {
         super(type);
         this.drawSetting = drawSetting;
         this.actionSetting = actionSetting;
@@ -129,6 +129,7 @@ export class EnhancedContext  {
     constructor(canvas, context) {
         this.canvas = canvas;
         this.context = context;
+        this.POS_CONST = 1000 / 500;
     }
 
     /******************** Basic operations *******************/
@@ -151,4 +152,14 @@ export class EnhancedContext  {
         shape.moveOnce();
         shape.drawSelf(this.context);
     }
+
+    /******************** Mouse event *******************/
+    getMouseCanvasPosition(event) {
+        let rec = this.canvas.getBoundingClientRect();
+        return {
+            x: (event.clientX - rec.left) * this.POS_CONST,
+            y: (event.clientY - rec.top) * this.POS_CONST
+        }
+    }
+
 }

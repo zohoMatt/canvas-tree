@@ -46,3 +46,15 @@ const run = () => {
 };
 
 window.requestAnimationFrame(run);
+
+
+/******************** test *******************/
+canvas.addEventListener('mousemove', (e) => {
+    const { x: mx, y: my } = ctxPlus.getMouseCanvasPosition(e);
+    const { x, y } = a.getPosition();
+    const { speedX, speedY } = Data;
+
+    Data.speedX = (mx - x) / 100;
+    Data.speedY = (my - y) / 100;
+
+});
