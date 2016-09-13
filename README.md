@@ -2,6 +2,7 @@
 
 ## Intro
 This project is a canvas experiment. You can adjust parameters to draw a perfect tree for yourself!  
+![](http://ww4.sinaimg.cn/large/72f96cbajw1f7s7tvkkouj216i0y8wm9.jpg)
 
 ## [Play!](https://zohofrank.github.io/canvas-tree/)
 ### Basic
