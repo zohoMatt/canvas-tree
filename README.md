@@ -3,7 +3,7 @@
 ## Intro
 This project is a canvas experiment. You can adjust parameters to draw a perfect tree for yourself!  
 
-## Play!
+## [Play!](https://zohofrank.github.io/canvas-tree/)
 ### Basic
 * Click the mouse to draw a tree using current settings on the control panel.
 * The control panel can be folded and unfolded.
@@ -19,29 +19,29 @@ Just a text description. As written, all settings will be applied on the next tr
 Set the scale parameter.
 
 #### Leaf Settings
-* **drawLeaves**
+* **drawLeaves**  
 `True` to draw leaves and `False` to disable.
-* **leavesColor**
+* **leavesColor**  
 Set the color of leaves.
-* **leavesWidth**
+* **leavesWidth**  
 The leaves are rectangles. Use this to set the width of leaf rectangles.
-* **leavesHeight**
+* **leavesHeight**  
 Set the height of all leaves.
 
 #### Branch Settings
-* **spread**
+* **spread**  
 Set the symmetry level.
-* **branchWidth**
+* **branchWidth**  
 Set the thickness of branches.
-* **maxBranchLength**
+* **maxBranchLength**  
 Set the maximum length of branches.
-* **maxBranchGenerations**
+* **maxBranchGenerations**  
 All trees are binary trees. Use this to set the height of all trees.
 
 #### Buttons
-* **random**
+* **random**  
 Randomly generate a suite of settings.
-* **clear**
+* **clear**  
 Clear the canvas.
 
 ## ChangeLog
