@@ -4,9 +4,6 @@
 /**
  * This file is based on dat.gui, a UI controller for web demos.
  */
-import { randomColorPicker, randomInteger, randomNumber } from './lib/random';
-import { updateReadyTree } from './main';
-
 let DataStore = function () {
     this.message = 'Set style for the next tree';
     // shape folder
@@ -25,19 +22,7 @@ let DataStore = function () {
 
     this.clear = () => { };
 
-    let _this = this;
-    this.random = () => {
-        _this.leavesColor = randomColorPicker();
-        _this.leavesWidth = randomInteger(100, 1000);
-        _this.leavesHeight = randomInteger(100, 1000);
-        // _this.drawLeaves = Math.random() > 0.5;
-        _this.spread = randomNumber(0.3, 1);
-        _this.branchWidth = randomInteger(1, 20);
-        _this.maxBranchLength = randomInteger(1, 100);
-        _this.maxBranchGenerations = randomInteger(8, 18);
-
-        updateReadyTree();
-    };
+    this.random = () => { };
 };
 
 /******************** Set panel *******************/
@@ -61,14 +46,14 @@ let leavesHeight = leafFolder.add(data, 'leavesHeight', 100, 1000).step(1).liste
 let branchFolder = panel.addFolder('Branch Settings');
 let spread = branchFolder.add(data, 'spread', 0.3, 1).step(0.01).listen();
 let branchWidth = branchFolder.add(data, 'branchWidth', 1, 20).step(1).listen();
-let maxBranchLength = branchFolder.add(data, 'maxBranchLength', 1, 100).step(1).listen();
+let maxBranchLength = branchFolder.add(data, 'maxBranchLength', 20, 100).step(1).listen();
 let maxBranchGenerations = branchFolder.add(data, 'maxBranchGenerations', 8, 18).step(1).listen();
 
 let random = panel.add(data, 'random');
 let clear = panel.add(data, 'clear');
 
 
-export function register() {
+export function register(handler) {
     [
         drawLeaves,
         leavesColor,
@@ -81,11 +66,14 @@ export function register() {
         random,
         clear
     ].map((controller) => {
-        controller.onChange((value) => {
-            data[controller] = value;
-            updateReadyTree();
-        });
+        handler(controller);
     });
 }
 
 export default data;
+
+export function updateAllController() {
+    for (let c in panel.__controllers) {
+        panel.__controllers[c].updateDisplay();
+    }
+}

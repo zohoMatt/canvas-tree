@@ -6,6 +6,8 @@ import './style.less';
 import { EnhancedContext } from './lib/enhancedContext';
 import { NatureTree } from './lib/Shape';
 import Data, { register } from './controller';
+import { randomColorPicker, randomInteger, randomNumber } from './lib/random';
+
 
 const canvas = document.getElementById('main');
 
@@ -23,6 +25,18 @@ let readyTree = null;
 // modify the clear method
 Data.clear = () => {
     ctxPlus.clearContextWithOpacity(1);
+};
+Data.random = () => {
+    Data.leavesColor = randomColorPicker();
+    Data.leavesWidth = randomInteger(100, 1000);
+    Data.leavesHeight = randomInteger(100, 1000);
+    // Data.drawLeaves = Math.random() > 0.5;
+    Data.spread = randomNumber(0.3, 1);
+    Data.branchWidth = randomInteger(1, 20);
+    Data.maxBranchLength = randomInteger(20, 100);
+    Data.maxBranchGenerations = randomInteger(8, 18);
+
+    updateReadyTree();
 };
 
 export function updateReadyTree() {
@@ -54,7 +68,15 @@ export function updateReadyTree() {
 
 
 /******************** Run app *******************/
-register();         // register controller listener
+// register panel controllers
+register((controller) => {
+    controller.onChange((value) => {
+        Data[controller] = value;
+        updateReadyTree();
+    });
+});
+
+// initialize ready treee
 updateReadyTree();      // update all trees
 
 canvas.addEventListener('click', (e) => {
