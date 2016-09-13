@@ -1,6 +1,10 @@
 /**
  * Created by Zoho on 16/9/12.
  */
+/**
+ * This file is based on dat.gui, a UI controller for web demos.
+ */
+
 let DataStore = function (name, speedX, speedY, quantity) {
     this.name = name;
     this.speedX = speedX;
@@ -29,3 +33,9 @@ quantityControl.onChange((value) => {
 });
 
 export default data;
+
+export function updateAllController() {
+    for (let c in panel.__controllers) {
+        panel.__controllers[c].updateDisplay();
+    }
+}
