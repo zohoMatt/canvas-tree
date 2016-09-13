@@ -16,110 +16,109 @@ class Shape {
 /**                    NatureTree                        **/
 /**======================================================**/
 export class NatureTree extends Shape {
-    constructor(type='tree') {
-        super();
-        this.x = 0;
-        this.y = 0;
-        this.xpos = 400;
-        this.ypos = 800;
-        this.zpos = 0;
-        this.scaleX = 0.85;
-        this.scaleY = 0.85;
-        this.spread = 0.6;
-        this.drawLeaves = true;
-        this.leavesColor = 'purple';
-        this.max_branch_width = 20;
-        this.max_branch_height = 60;
+    /**
+     *
+     * @param type                  {String}
+     * @param x                     {Number}
+     * @param y                     {Number}
+     * @param z                     {Number}
+     * @param scaleX                {Number}
+     * @param scaleY                {Number}
+     *
+     * @param drawLeaves            {Boolean} Whether to draw leaves for the tree.
+     * @param leavesWidth           {Number} Leaf is in a rectangle shape.
+     * @param leavesHeight          {Number}
+     * @param leavesColor           {String}
+     *
+     * @param spread                {Number} Recommend: 0.3 ~ 1.
+     * @param branchWidth           {Number} The width of all branches.
+     * @param maxBranchLength       {Number}
+     * @param maxBranchGenerations  {Number} Number of generations. It affects the browser behaviour. Recommend: 8 ~ 16.
+     */
+    constructor(
+        type='tree',
+        { x, y, z, scaleX, scaleY} = {x: 400, y: 800, z: 0, scaleX: 0.85, scaleY: 0.85 },
+        { drawLeaves, leavesWidth, leavesHeight, leavesColor, }
+            = { drawLeaves: true, leavesWidth: 200, leavesHeight: 200, leavesColor: 'purple', },
+        { spread, branchWidth, maxBranchLength, maxBranchGenerations }
+            = { spread: 0.6,  branchWidth: 13, maxBranchLength: 60, maxBranchGenerations: 12 },
+        ) {
+        super(type);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
 
-        // leave size
-        this.small_leaves = 10;		//树叶状态
-        this.medium_leaves = 200;
-        this.big_leaves = 500;
-        this.thin_leaves = 900;
-
-        this.leaveType = this.medium_leaves;
+        this.spread = spread;
+        this.drawLeaves = drawLeaves;
+        this.leavesWidth = leavesWidth;
+        this.leavesHeight = leavesHeight;
+        this.leavesColor = leavesColor;
+        this.branchWidth = branchWidth;
+        this.maxBranchLength = maxBranchLength;
+        this.maxBranchGenerations = maxBranchGenerations;
     }
 
     drawSelf(context) {
-        let spread = this.spread;
-        let leaves = true;
-        let leaveType = this.leaveType;
-        //设置树杈分多少枝
-        if (spread >= 0.3 && spread <= 1) {
-            this.spread = spread;
-        } else {
-            this.spread = 0.6
-        }
-
-        //是否绘制树叶
-        if (leaves === true || leaves === false) {
-            this.drawLeaves = leaves;
-        } else {
-            this.drawLeaves = true;
-        }
-
-        if (leaveType == this.small_leaves ||
-            leaveType == this.medium_leaves ||
-            leaveType == this.big_leaves ||
-            leaveType == this.thin_leaves) {
-            this.leaveType = leaveType;
-        } else {
-            this.leaveType = this.medium_leaves;
-        }
+        const { x, y, scaleX, scaleY, branchWidth } = this;
 
         context.save();
-        context.lineWidth = 1 + Math.random() * this.max_branch_width;
+        context.lineWidth = branchWidth;
         context.lineCap = 'round';
         context.lineJoin = 'round';
-        context.translate(this.xpos, this.ypos);
-        context.scale(this.scaleX, this.scaleY);
+        context.translate(x, y);
+        context.scale(scaleX, scaleY);
         this._branchAndLeaves(context, 0);
         context.restore();
     }
 
     /*****************************************/
     _branchAndLeaves(context, generations) {
-        if (generations < 12) {
+        const { maxBranchGenerations, maxBranchLength, spread } = this;
+
+        if (generations < maxBranchGenerations) {
             context.save();
 
+            // draw a simple line
             context.beginPath();
             context.moveTo(0, 0);
-            context.lineTo(0, -this.max_branch_height);
+            context.lineTo(0, -maxBranchLength);
             context.stroke();
 
-            context.translate(0, -this.max_branch_height);
-
-            var randomN = -(Math.random() * 0.1) + 0.1;
+            // move and rotate
+            context.translate(0, -maxBranchLength);
+            let randomN = -(Math.random() * 0.1) + 0.1;
             context.rotate(randomN);
 
-            if (Math.random() < this.spread) {
-                //画左侧树枝
+            if (Math.random() < spread) {
+                // draw left branch
                 context.rotate(-0.35);
                 context.scale(0.7, 0.7);
                 context.save();
+                // recursively draw the next generation
                 this._branchAndLeaves(context, generations + 1);
                 context.restore();
 
-                //画右侧树枝
+                // draw right branch
                 context.rotate(0.6);
                 context.save();
+                // recursively draw the next generation
                 this._branchAndLeaves(context, generations + 1);
                 context.restore();
             } else {
-
+                // has some chance not to draw separate branch
                 this._branchAndLeaves(context, generations);
-
             }
 
             context.restore();
-
         } else {
-            //枝条画完画树叶
+            // enough generations; draw leaves
             if (this.drawLeaves) {
-                var lengthFactor = 200;
+                const { leavesColor, leavesWidth, leavesHeight } = this;
                 context.save();
-                context.fillStyle = this.leavesColor;
-                context.fillRect(0, 0, this.leaveType, lengthFactor);
+                context.fillStyle = leavesColor;
+                context.fillRect(0, 0, leavesWidth, leavesHeight);
                 context.restore();
             }
         }
@@ -142,7 +141,11 @@ export class Circle extends Shape {
      * @param ax            {Number} Acceleration on x-axis.
      * @param ay            {Number} Acceleration on y-axis.
      */
-    constructor(type='circle', {x, y, radius, radian, fillColor}, { speed_x=0, speed_y=0, ax=0, ay=0 }) {
+    constructor(
+        type='circle',
+        {x, y, radius, radian, fillColor} = {x: 300, y: 300, radius: 40, radian: Math.PI * 2, fillColor: 'lightblue'},
+        {speed_x, speed_y, ax, ay} = { speed_x: 1, speed_y: 1, ax: 0, ay: 0 }
+        ) {
         super(type);
         this.x = x;
         this.y = y;

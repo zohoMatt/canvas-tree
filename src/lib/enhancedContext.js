@@ -8,7 +8,11 @@ export class EnhancedContext  {
     constructor(canvas, context) {
         this.canvas = canvas;
         this.context = context;
-        this.POS_CONST = 1000 / 500;
+
+        const cvsElem = document.getElementsByTagName('canvas')[0];
+        const pixelWidth = cvsElem.width;
+        const boxWidth = Number(cvsElem.style.width.slice(0, -2));
+        this.POS_CONST = pixelWidth / boxWidth;
     }
 
     /******************** Basic operations *******************/
