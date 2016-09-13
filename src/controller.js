@@ -20,9 +20,13 @@ let DataStore = function () {
     this.maxBranchLength = 60;
     this.maxBranchGenerations = 12;
 
-    this.clear = () => { };
+    this.clear = () => {
+        throw '[NotOverridenError] DataStore.clear is not overridden';
+    };
 
-    this.random = () => { };
+    this.random = () => {
+        throw '[NotOverridenError] DataStore.random is not overridden';
+    };
 };
 
 /******************** Set panel *******************/
