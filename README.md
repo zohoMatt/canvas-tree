@@ -2,12 +2,13 @@
 
 ## Intro
 This project is a canvas experiment. You can adjust parameters to draw a perfect tree for yourself!  
-![](http://ww4.sinaimg.cn/large/72f96cbajw1f7s7tvkkouj216i0y8wm9.jpg)
+<img src="http://ww4.sinaimg.cn/large/72f96cbajw1f7s7tvkkouj216i0y8wm9.jpg" width = "400" height = "368" alt="图片名称" align=center />
 
 ## [Play!](https://zohofrank.github.io/canvas-tree/)
 ### Basic
 * Click the mouse to draw a tree using current settings on the control panel.
 * The control panel can be folded and unfolded.
+
 ### Control panel
 > Based on [dat.gui](https://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage), a light-weight UI controller.
 
